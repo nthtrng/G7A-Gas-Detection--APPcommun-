@@ -80,7 +80,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
     .dot { width: 7px; height: 7px; border-radius: 50%; background: #639922; display: inline-block; }
     .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
     .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-    .page-title { font-size: 18px; font-weight: 500; }
+    .page-title { font-size: 22px; font-weight: 500; }
     .page-sub { font-size: 13px; color: #888; margin-top: 2px; }
     .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; text-decoration: none; }
     .btn-primary { background: #1a1a2e; color: #fff; }
@@ -135,7 +135,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 
   <div class="page-header">
     <div>
-      <p class="page-title">Dashboard — Air Quality Monitoring</p>
+      <p class="page-title">Air Quality Monitoring</p>
       <p class="page-sub">Dernière mise à jour : <?= $last ? h($last['created_at']) : 'Aucune donnée' ?></p>
     </div>
     <a href="" class="btn btn-primary">
@@ -221,6 +221,6 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 
 </div>
 
-<footer>Rover Gas Monitoring System &nbsp;·&nbsp; ISEP Project &nbsp;·&nbsp; 2026</footer>
+<footer>Rover Gas Monitoring System &nbsp;·&nbsp; <span style="font-size:10px; color:#bbb;">ISEP · 2026</span></footer>
 </body>
 </html>
