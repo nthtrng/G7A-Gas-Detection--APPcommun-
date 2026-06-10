@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 require_once 'dbconnect.php';
 
-// Vraies données depuis la BDD
 $stmt = $pdo->query("SELECT * FROM gas_measures_g7a ORDER BY created_at DESC LIMIT 1");
 $last = $stmt->fetch();
 
@@ -60,7 +59,7 @@ function h($str) {
 $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +91,6 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
     .metric-value { font-size: 22px; font-weight: 500; }
     .metric-tag { font-size: 11px; margin-top: 4px; }
     .tag-safe { color: #3b6d11; } .tag-warn { color: #854f0b; } .tag-danger { color: #a32d2d; }
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
     .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
     .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
     .card-title { font-size: 12px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -127,7 +125,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
   </div>
   <div class="nav-status">
     <span class="dot"></span>
-    <?= h($_SESSION['username']) ?> &nbsp;|&nbsp; <a href="pages/logout.php" style="color:#aaa;">Déconnexion</a>
+    <?= h($_SESSION['username']) ?> &nbsp;|&nbsp; <a href="pages/logout.php" style="color:#aaa;">Log out</a>
   </div>
 </nav>
 
@@ -136,10 +134,10 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
   <div class="page-header">
     <div>
       <p class="page-title">Air Quality Monitoring</p>
-      <p class="page-sub">Dernière mise à jour : <?= $last ? h($last['created_at']) : 'Aucune donnée' ?></p>
+      <p class="page-sub">Last update: <?= $last ? date('d F Y \a\t H:i', strtotime($last['created_at'])) : 'No data' ?></p>
     </div>
     <a href="" class="btn btn-primary">
-      <i class="ti ti-refresh" style="font-size:14px"></i> Actualiser
+      <i class="ti ti-refresh" style="font-size:14px"></i> Refresh
     </a>
   </div>
 
@@ -147,21 +145,21 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 
   <div class="metrics">
     <div class="metric">
-      <div class="metric-top"><span class="metric-label">Capteur actif</span><i class="ti ti-cpu metric-icon"></i></div>
+      <div class="metric-top"><span class="metric-label">Active sensor</span><i class="ti ti-cpu metric-icon"></i></div>
       <div class="metric-value"><?= h($last['sensor_name']) ?></div>
-      <div class="metric-tag tag-safe">● Connecté</div>
+      <div class="metric-tag tag-safe">● Connected</div>
     </div>
     <div class="metric">
-      <div class="metric-top"><span class="metric-label">Valeur brute</span><i class="ti ti-chart-line metric-icon"></i></div>
+      <div class="metric-top"><span class="metric-label">Raw value</span><i class="ti ti-chart-line metric-icon"></i></div>
       <div class="metric-value"><?= $last['gas_value'] ?> <span style="font-size:13px;color:#aaa;">raw</span></div>
-      <div class="metric-tag <?= tagClass($currentStatus) ?>">▲ Seuil <?= $currentStatus ?></div>
+      <div class="metric-tag <?= tagClass($currentStatus) ?>">▲ <?= $currentStatus ?></div>
     </div>
     <div class="metric">
-      <div class="metric-top"><span class="metric-label">Type de gaz</span><i class="ti ti-wind metric-icon"></i></div>
+      <div class="metric-top"><span class="metric-label">Gas type</span><i class="ti ti-wind metric-icon"></i></div>
       <div class="metric-value" style="font-size:15px;margin-top:4px;"><?= h($last['gas_type']) ?></div>
     </div>
     <div class="metric">
-      <div class="metric-top"><span class="metric-label">Statut global</span><i class="ti ti-shield metric-icon"></i></div>
+      <div class="metric-top"><span class="metric-label">Overall status</span><i class="ti ti-shield metric-icon"></i></div>
       <div class="metric-value" style="font-size:15px;margin-top:4px;">
         <span class="badge <?= badgeClass($currentStatus) ?>">
           <i class="ti <?= statusIcon($currentStatus) ?>"></i>
@@ -172,39 +170,39 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
   </div>
 
   <div class="card">
-    <div class="card-head"><span class="card-title">Mesure actuelle</span><span class="badge badge-info">Live</span></div>
+    <div class="card-head"><span class="card-title">Current reading</span><span class="badge badge-info">Live</span></div>
     <div class="row">
-      <span class="row-label"><i class="ti ti-cpu" style="font-size:14px"></i> Capteur</span>
+      <span class="row-label"><i class="ti ti-cpu" style="font-size:14px"></i> Sensor</span>
       <span class="row-value"><?= h($last['sensor_name']) ?></span>
     </div>
     <div class="row">
-      <span class="row-label"><i class="ti ti-activity" style="font-size:14px"></i> Valeur gaz</span>
+      <span class="row-label"><i class="ti ti-activity" style="font-size:14px"></i> Gas value</span>
       <span class="row-value"><?= $last['gas_value'] ?> raw</span>
     </div>
     <div class="row">
-      <span class="row-label"><i class="ti ti-alert-triangle" style="font-size:14px"></i> Statut</span>
+      <span class="row-label"><i class="ti ti-alert-triangle" style="font-size:14px"></i> Status</span>
       <span class="badge <?= badgeClass($currentStatus) ?>">
         <i class="ti <?= statusIcon($currentStatus) ?>"></i>
         <?= $currentStatus ?>
       </span>
     </div>
     <div class="row">
-      <span class="row-label"><i class="ti ti-clock" style="font-size:14px"></i> Date</span>
-      <span class="row-value"><?= h($last['created_at']) ?></span>
+      <span class="row-label"><i class="ti ti-clock" style="font-size:14px"></i> Timestamp</span>
+      <span class="row-value"><?= date('d F Y \a\t H:i', strtotime($last['created_at'])) ?></span>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-head"><span class="card-title">Historique des mesures</span></div>
+    <div class="card-head"><span class="card-title">Measurements history</span></div>
     <table>
       <thead>
-        <tr><th>Date</th><th>Capteur</th><th>Valeur</th><th>Statut</th><th>Niveau</th></tr>
+        <tr><th>Timestamp</th><th>Sensor</th><th>Value</th><th>Status</th><th>Level</th></tr>
       </thead>
       <tbody>
         <?php foreach ($history as $row): ?>
         <?php $s = getStatus($row['gas_value']); ?>
         <tr>
-          <td style="color:#888;"><?= h($row['created_at']) ?></td>
+          <td style="color:#888;"><?= date('d F Y \a\t H:i', strtotime($row['created_at'])) ?></td>
           <td><?= h($row['sensor_name']) ?></td>
           <td><?= $row['gas_value'] ?> raw</td>
           <td><span class="badge <?= badgeClass($s) ?>"><i class="ti <?= statusIcon($s) ?>"></i><?= $s ?></span></td>
@@ -216,7 +214,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
   </div>
 
   <?php else: ?>
-    <div class="card"><p style="color:#888;text-align:center;">Aucune donnée disponible pour l'instant.</p></div>
+    <div class="card"><p style="color:#888;text-align:center;">No data available yet.</p></div>
   <?php endif; ?>
 
 </div>

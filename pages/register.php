@@ -11,27 +11,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (empty($username) || empty($email) || empty($password)) {
-        $error = "Tous les champs sont obligatoires.";
+        $error = "All fields are required.";
     } else {
         $stmt = $pdo->prepare("SELECT id FROM users_g7a WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
-            $error = "Cet email est déjà utilisé.";
+            $error = "This email is already in use.";
         } else {
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("INSERT INTO users_g7a (username, email, password) VALUES (?, ?, ?)");
             $stmt->execute([$username, $email, $hash]);
-            $success = "Compte créé ! Tu peux te connecter.";
+            $success = "Account created! You can now log in.";
         }
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inscription</title>
+  <title>Sign up</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,33 +67,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="wrap">
   <div class="card">
-    <p class="card-title">Créer un compte</p>
-    <p class="card-sub">Accès au tableau de bord</p>
+    <p class="card-title">Create an account</p>
+    <p class="card-sub">Access the dashboard</p>
 
     <?php if ($error): ?>
       <div class="error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
     <?php if ($success): ?>
-      <div class="success"><?= htmlspecialchars($success) ?> <a href="login.php" style="color:#3b6d11; font-weight:500;">Se connecter</a></div>
+      <div class="success"><?= htmlspecialchars($success) ?> <a href="login.php" style="color:#3b6d11; font-weight:500;">Log in</a></div>
     <?php endif; ?>
 
     <form method="POST">
       <div class="field">
-        <label>Nom d'utilisateur</label>
-        <input type="text" name="username" placeholder="ex : rover_admin" required>
+        <label>Username</label>
+        <input type="text" name="username" placeholder="e.g. rover_admin" required>
       </div>
       <div class="field">
         <label>Email</label>
-        <input type="email" name="email" placeholder="votre@email.com" required>
+        <input type="email" name="email" placeholder="your@email.com" required>
       </div>
       <div class="field">
-        <label>Mot de passe</label>
+        <label>Password</label>
         <input type="password" name="password" placeholder="••••••••" required>
       </div>
-      <button type="submit" class="btn">S'inscrire</button>
+      <button type="submit" class="btn">Sign up</button>
     </form>
 
-    <p class="link">Déjà un compte ? <a href="login.php">Se connecter</a></p>
+    <p class="link">Already have an account? <a href="login.php">Log in</a></p>
   </div>
 </div>
 

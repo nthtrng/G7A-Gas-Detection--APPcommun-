@@ -18,16 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../gas_dashboard.php');
         exit;
     } else {
-        $error = "Email ou mot de passe incorrect.";
+        $error = "Incorrect email or password.";
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion</title>
+  <title>Log in</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="wrap">
   <div class="card">
-    <p class="card-title">Connexion</p>
-    <p class="card-sub">Accès au tableau de bord</p>
+    <p class="card-title">Log in</p>
+    <p class="card-sub">Access the dashboard</p>
 
     <?php if ($error): ?>
       <div class="error"><?= htmlspecialchars($error) ?></div>
@@ -72,16 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST">
       <div class="field">
         <label>Email</label>
-        <input type="email" name="email" placeholder="votre@email.com" required>
+        <input type="email" name="email" placeholder="your@email.com" required>
       </div>
       <div class="field">
-        <label>Mot de passe</label>
+        <label>Password</label>
         <input type="password" name="password" placeholder="••••••••" required>
       </div>
-      <button type="submit" class="btn">Se connecter</button>
+      <button type="submit" class="btn">Log in</button>
     </form>
 
-    <p class="link">Pas encore de compte ? <a href="register.php">S'inscrire</a></p>
+    <p class="link">No account yet? <a href="register.php">Sign up</a></p>
   </div>
 </div>
 
