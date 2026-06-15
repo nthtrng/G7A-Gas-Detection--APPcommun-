@@ -68,7 +68,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; min-height: 100vh; }
+    body { font-family: Arial, sans-serif; background: #eef4ee; color: #1a1a1a; min-height: 100vh; display: flex; flex-direction: column; }
     .navbar { background: #1a1a2e; color: #fff; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
     .nav-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: #fff; text-decoration: none; }
     .nav-brand i { font-size: 20px; color: #e24b4a; }
@@ -77,7 +77,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
     .nav-links a.active { color: #fff; font-weight: 500; }
     .nav-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #aaa; }
     .dot { width: 7px; height: 7px; border-radius: 50%; background: #639922; display: inline-block; }
-    .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; flex: 1; width: 100%; }
     .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
     .page-title { font-size: 22px; font-weight: 500; }
     .page-sub { font-size: 13px; color: #888; margin-top: 2px; }
@@ -110,13 +110,13 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
     .bar-wrap { width: 80px; height: 5px; background: #eee; border-radius: 99px; overflow: hidden; }
     .bar { height: 100%; border-radius: 99px; }
     .bar-safe { background: #639922; } .bar-warning { background: #ba7517; } .bar-danger { background: #e24b4a; }
-    footer { text-align: center; padding: 1.5rem; font-size: 12px; color: #aaa; border-top: 0.5px solid rgba(0,0,0,0.08); background: #fff; margin-top: 1rem; }
+    footer { text-align: center; padding: 1.5rem; font-size: 12px; color: #aaa; border-top: 0.5px solid rgba(0,0,0,0.08); background: #fff; margin-top: auto; }
   </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <a href="#" class="nav-brand">
+  <a href="index.php" class="nav-brand">
     <i class="ti ti-radioactive"></i>
     Rover Gas Monitor
   </a>
