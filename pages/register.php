@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <nav class="navbar">
-  <a href="#" class="nav-brand">
+  <a href="../index.php" class="nav-brand">
     <i class="ti ti-radioactive"></i>
     Rover Gas Monitor
   </a>
