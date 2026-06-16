@@ -64,7 +64,6 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rover Gas Monitor</title>
-  <meta http-equiv="refresh" content="5">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,6 +82,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
     .page-sub { font-size: 13px; color: #888; margin-top: 2px; }
     .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; text-decoration: none; }
     .btn-primary { background: #1a1a2e; color: #fff; }
+    .btn-secondary { background: #fff; color: #1a1a1a; border: 0.5px solid rgba(0,0,0,0.15); }
     .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem; }
     .metric { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 10px; padding: 1rem; }
     .metric-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
@@ -136,9 +136,14 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
       <p class="page-title">Air Quality Monitoring</p>
       <p class="page-sub">Last update: <?= $last ? date('d F Y \a\t H:i', strtotime($last['created_at'])) : 'No data' ?></p>
     </div>
-    <a href="" class="btn btn-primary">
-      <i class="ti ti-refresh" style="font-size:14px"></i> Refresh
-    </a>
+    <div style="display:flex; gap:8px;">
+      <button onclick="togglePause()" id="pauseBtn" class="btn btn-secondary">
+        <i class="ti ti-player-pause" style="font-size:14px"></i> Pause
+      </button>
+      <a href="gas_dashboard.php" class="btn btn-primary">
+        <i class="ti ti-refresh" style="font-size:14px"></i> Refresh
+      </a>
+    </div>
   </div>
 
   <?php if ($last): ?>
@@ -202,7 +207,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
         <?php foreach ($history as $row): ?>
         <?php $s = getStatus($row['gas_value']); ?>
         <tr>
-          <td style="color:#888;"><?= date('d F Y \a\t H:i', strtotime($row['created_at'])) ?></td>
+          <td style="color:#888;"><?= date('d F Y \a\t H:i:s', strtotime($row['created_at'])) ?></td>
           <td><?= h($row['sensor_name']) ?></td>
           <td><?= $row['gas_value'] ?> raw</td>
           <td><span class="badge <?= badgeClass($s) ?>"><i class="ti <?= statusIcon($s) ?>"></i><?= $s ?></span></td>
@@ -220,5 +225,27 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 </div>
 
 <footer>Rover Gas Monitoring System &nbsp;·&nbsp; <span style="font-size:10px; color:#bbb;">ISEP · 2026</span></footer>
+
+<script>
+  let paused = false;
+  let timer = setTimeout(reload, 5000);
+
+  function reload() {
+    if (!paused) location.reload();
+    else timer = setTimeout(reload, 5000);
+  }
+
+  function togglePause() {
+    paused = !paused;
+    const btn = document.getElementById('pauseBtn');
+    if (paused) {
+      btn.innerHTML = '<i class="ti ti-player-play" style="font-size:14px"></i> Resume';
+    } else {
+      btn.innerHTML = '<i class="ti ti-player-pause" style="font-size:14px"></i> Pause';
+      reload();
+    }
+  }
+</script>
+
 </body>
 </html>
