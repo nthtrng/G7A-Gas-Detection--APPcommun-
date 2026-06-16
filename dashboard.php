@@ -46,8 +46,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
     .page-title { font-size: 22px; font-weight: 500; }
     .page-sub { font-size: 13px; color: #888; margin-top: 2px; }
     .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-    .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 1.25rem; text-decoration: none; color: #1a1a1a; display: block; transition: border-color 0.2s; }
-    .card:hover { border-color: rgba(0,0,0,0.25); }
+    .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 1.25rem; color: #1a1a1a; display: block; }
     .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
     .card-group { font-size: 13px; font-weight: 500; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
     .card-group i { font-size: 16px; color: #aaa; }
@@ -61,7 +60,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
     .stat:last-child { border-bottom: none; }
     .stat-label { color: #888; }
     .stat-value { font-weight: 500; }
-    .card-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #1a1a2e; margin-top: 1rem; font-weight: 500; }
+    .card-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #1a1a2e; margin-top: 1rem; font-weight: 500; text-decoration: none; }
     .no-data { font-size: 13px; color: #bbb; text-align: center; padding: 1rem 0; }
     footer { text-align: center; padding: 1.5rem; font-size: 12px; color: #aaa; border-top: 0.5px solid rgba(0,0,0,0.08); background: #fff; margin-top: auto; }
   </style>
@@ -75,7 +74,10 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
   </a>
   <div class="nav-links">
     <a href="dashboard.php" class="active">Overview</a>
-    <a href="gas_dashboard.php">G7A Detail</a>
+    <a href="gas_dashboard.php">G7A</a>
+    <a href="dashboard_g7b.php">G7B</a>
+    <a href="dashboard_g7c.php">G7C</a>
+    <a href="dashboard_g7e.php">G7E</a>
   </div>
   <div class="nav-status">
     <span class="dot"></span>
@@ -133,13 +135,18 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
       <?php else: ?>
         <p class="no-data">No data available</p>
       <?php endif; ?>
+      <a href="dashboard_g7b.php" class="card-link"><i class="ti ti-arrow-right" style="font-size:13px"></i> View details</a>
     </div>
 
     <!-- G7C -->
     <div class="card">
       <div class="card-head">
         <span class="card-group"><i class="ti ti-map-pin"></i> G7C — GPS & environment</span>
-        <span class="badge badge-info">Live</span>
+        <?php if ($g7c): ?>
+          <span class="badge badge-info">Live</span>
+        <?php else: ?>
+          <span class="badge badge-gray">No data</span>
+        <?php endif; ?>
       </div>
       <?php if ($g7c): ?>
         <div class="stat"><span class="stat-label">Humidity</span><span class="stat-value"><?= $g7c['humidite_pourcent'] ?> %</span></div>
@@ -149,13 +156,18 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
       <?php else: ?>
         <p class="no-data">No data available</p>
       <?php endif; ?>
+      <a href="dashboard_g7c.php" class="card-link"><i class="ti ti-arrow-right" style="font-size:13px"></i> View details</a>
     </div>
 
     <!-- G7E -->
     <div class="card">
       <div class="card-head">
         <span class="card-group"><i class="ti ti-microphone"></i> G7E — Audio sensor</span>
-        <span class="badge badge-info">Live</span>
+        <?php if ($g7e): ?>
+          <span class="badge badge-info">Live</span>
+        <?php else: ?>
+          <span class="badge badge-gray">No data</span>
+        <?php endif; ?>
       </div>
       <?php if ($g7e): ?>
         <div class="stat"><span class="stat-label">File</span><span class="stat-value" style="font-size:12px;"><?= h($g7e['filename']) ?></span></div>
@@ -165,6 +177,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
       <?php else: ?>
         <p class="no-data">No data available</p>
       <?php endif; ?>
+      <a href="dashboard_g7e.php" class="card-link"><i class="ti ti-arrow-right" style="font-size:13px"></i> View details</a>
     </div>
 
   </div>

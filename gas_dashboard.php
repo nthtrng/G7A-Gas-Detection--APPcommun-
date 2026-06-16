@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('Europe/Paris');
 if (!isset($_SESSION['user_id'])) {
     header('Location: pages/login.php');
     exit;
@@ -63,7 +64,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rover Gas Monitor</title>
+  <title>G7A - Gas Monitor</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -118,14 +119,19 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 <nav class="navbar">
   <a href="index.php" class="nav-brand">
     <i class="ti ti-radioactive"></i>
-    Rover Gas Monitor
+    Rover Monitor
   </a>
   <div class="nav-links">
-    <a href="#" class="active">Dashboard</a>
+    <a href="dashboard.php">Overview</a>
+    <a href="gas_dashboard.php" class="active">G7A</a>
+    <a href="dashboard_g7b.php">G7B</a>
+    <a href="dashboard_g7c.php">G7C</a>
+    <a href="dashboard_g7e.php">G7E</a>
   </div>
   <div class="nav-status">
     <span class="dot"></span>
-    <?= h($_SESSION['username']) ?> &nbsp;|&nbsp; <a href="pages/logout.php" style="color:#aaa;">Log out</a>
+    <?= h($_SESSION['username']) ?> - <?= h($_SESSION['groupe'] ?? '') ?> &nbsp;|&nbsp;
+    <a href="pages/logout.php" style="color:#aaa;">Log out</a>
   </div>
 </nav>
 
@@ -224,7 +230,7 @@ $currentStatus = $last ? getStatus($last['gas_value']) : "SAFE";
 
 </div>
 
-<footer>Rover Gas Monitoring System &nbsp;·&nbsp; <span style="font-size:10px; color:#bbb;">ISEP · 2026</span></footer>
+<footer>Rover Monitoring System &nbsp;·&nbsp; <span style="font-size:10px; color:#bbb;">ISEP · 2026</span></footer>
 
 <script>
   let paused = false;
