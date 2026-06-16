@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['groupe'] = $user['groupe'];
-        header('Location: ../gas_dashboard.php');
+        header('Location: ../dashboard.php');
         exit;
     } else {
         $error = "Incorrect email or password.";
