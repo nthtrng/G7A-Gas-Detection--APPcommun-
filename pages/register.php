@@ -9,18 +9,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
+    $groupe = trim($_POST['groupe']);
 
-    if (empty($username) || empty($email) || empty($password)) {
+    if (empty($username) || empty($email) || empty($password) || empty($groupe)) {
         $error = "All fields are required.";
     } else {
-        $stmt = $pdo->prepare("SELECT id FROM users_g7a WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
             $error = "This email is already in use.";
         } else {
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO users_g7a (username, email, password) VALUES (?, ?, ?)");
-            $stmt->execute([$username, $email, $hash]);
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, password, groupe) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $hash, $groupe]);
             $success = "Account created! You can now log in.";
         }
     }
@@ -45,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .card-sub { font-size: 13px; color: #999; margin-bottom: 1.5rem; }
     .field { margin-bottom: 1rem; }
     .field label { display: block; font-size: 12px; color: #888; margin-bottom: 6px; }
-    .field input { width: 100%; padding: 9px 12px; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 8px; font-size: 13px; outline: none; background: #fafafa; }
-    .field input:focus { border-color: #1a1a2e; background: #fff; }
+    .field input, .field select { width: 100%; padding: 9px 12px; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 8px; font-size: 13px; outline: none; background: #fafafa; }
+    .field input:focus, .field select:focus { border-color: #1a1a2e; background: #fff; }
     .btn { width: 100%; padding: 10px; background: #1a1a2e; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
     .btn:hover { background: #2a2a4e; }
     .error { font-size: 12px; color: #a32d2d; background: #fcebeb; border-radius: 6px; padding: 8px 12px; margin-bottom: 1rem; }
@@ -89,6 +90,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="field">
         <label>Password</label>
         <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <div class="field">
+        <label>Group</label>
+        <select name="groupe" required>
+          <option value="">Select your group</option>
+          <option value="G7A">G7A</option>
+          <option value="G7B">G7B</option>
+          <option value="G7C">G7C</option>
+          <option value="G7E">G7E</option>
+        </select>
       </div>
       <button type="submit" class="btn">Sign up</button>
     </form>
