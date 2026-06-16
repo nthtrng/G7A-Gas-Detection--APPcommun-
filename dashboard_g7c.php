@@ -22,7 +22,7 @@ $history = $stmt2->fetchAll();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G7C — GPS & Environment</title>
+  <title>G7C - GPS & Environment</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -90,7 +90,7 @@ $history = $stmt2->fetchAll();
 
   <div class="page-header">
     <div>
-      <p class="page-title">G7C — GPS & Environment</p>
+      <p class="page-title">G7C - GPS & Environment</p>
       <p class="page-sub">Last update: <?= $last ? date('d F Y \a\t H:i:s', strtotime($last['date_enregistrement'])) : 'No data' ?></p>
     </div>
     <div style="display:flex; gap:8px;">

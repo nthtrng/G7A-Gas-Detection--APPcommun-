@@ -11,16 +11,16 @@ function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
-// G7A — gaz
+// G7A - gaz
 $g7a = $pdo->query("SELECT * FROM gas_measures_g7a ORDER BY created_at DESC LIMIT 1")->fetch();
 
-// G7B — recul
+// G7B - recul
 $g7b = $pdo->query("SELECT * FROM historique_capteur_g7b_recul ORDER BY date_evenement DESC LIMIT 1")->fetch();
 
-// G7C — capteurs
+// G7C - capteurs
 $g7c = $pdo->query("SELECT * FROM mesures_capteurs_g7c ORDER BY date_enregistrement DESC LIMIT 1")->fetch();
 
-// G7E — audio
+// G7E - audio
 $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 1")->fetch();
 ?>
 <!DOCTYPE html>
@@ -81,7 +81,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
   </div>
   <div class="nav-status">
     <span class="dot"></span>
-    <?= h($_SESSION['username']) ?> — <?= h($_SESSION['groupe'] ?? '') ?> &nbsp;|&nbsp;
+    <?= h($_SESSION['username']) ?> - <?= h($_SESSION['groupe'] ?? '') ?> &nbsp;|&nbsp;
     <a href="pages/logout.php" style="color:#aaa;">Log out</a>
   </div>
 </nav>
@@ -90,7 +90,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
 
   <div class="page-header">
     <p class="page-title">Rover Overview</p>
-    <p class="page-sub">All sensors — last readings</p>
+    <p class="page-sub">All sensors Last readings</p>
   </div>
 
   <div class="grid">
@@ -98,7 +98,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
     <!-- G7A -->
     <div class="card">
       <div class="card-head">
-        <span class="card-group"><i class="ti ti-flame"></i> G7A — Gas sensor</span>
+        <span class="card-group"><i class="ti ti-flame"></i> G7A - Gas sensor</span>
         <?php if ($g7a):
           $s = $g7a['gas_value'] <= 200 ? 'SAFE' : ($g7a['gas_value'] <= 500 ? 'WARNING' : 'DANGER');
           $cls = $s === 'SAFE' ? 'badge-safe' : ($s === 'WARNING' ? 'badge-warning' : 'badge-danger');
@@ -121,7 +121,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
     <!-- G7B -->
     <div class="card">
       <div class="card-head">
-        <span class="card-group"><i class="ti ti-arrow-autofit-left"></i> G7B — Distance sensor</span>
+        <span class="card-group"><i class="ti ti-arrow-autofit-left"></i> G7B - Distance sensor</span>
         <?php if ($g7b): ?>
           <span class="badge badge-info"><?= h($g7b['statut']) ?></span>
         <?php else: ?>
@@ -141,7 +141,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
     <!-- G7C -->
     <div class="card">
       <div class="card-head">
-        <span class="card-group"><i class="ti ti-map-pin"></i> G7C — GPS & environment</span>
+        <span class="card-group"><i class="ti ti-map-pin"></i> G7C - GPS & environment</span>
         <?php if ($g7c): ?>
           <span class="badge badge-info">Live</span>
         <?php else: ?>
@@ -162,7 +162,7 @@ $g7e = $pdo->query("SELECT * FROM G7E_audiofiles ORDER BY uploadedAt DESC LIMIT 
     <!-- G7E -->
     <div class="card">
       <div class="card-head">
-        <span class="card-group"><i class="ti ti-microphone"></i> G7E — Audio sensor</span>
+        <span class="card-group"><i class="ti ti-microphone"></i> G7E - Audio sensor</span>
         <?php if ($g7e): ?>
           <span class="badge badge-info">Live</span>
         <?php else: ?>
