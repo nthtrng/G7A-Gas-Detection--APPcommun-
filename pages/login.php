@@ -5,21 +5,27 @@ require_once '../dbconnect.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['groupe'] = $user['groupe'];
-        header('Location: ../dashboard.php');
-        exit;
+    if ($email === '' || $password === '') {
+        $error = "Email and password are required.";
     } else {
-        $error = "Incorrect email or password.";
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['groupe'] = $user['groupe'];
+
+            header('Location: ../dashboard.php');
+            exit;
+        } else {
+            $error = "Incorrect email or password.";
+        }
     }
 }
 ?>
@@ -75,10 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label>Email</label>
         <input type="email" name="email" placeholder="your@email.com" required>
       </div>
+
       <div class="field">
         <label>Password</label>
         <input type="password" name="password" placeholder="••••••••" required>
       </div>
+
       <button type="submit" class="btn">Log in</button>
     </form>
 
@@ -87,5 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <footer>Rover Gas Monitoring System &nbsp;·&nbsp; <span style="font-size:10px; color:#bbb;">ISEP · 2026</span></footer>
+
 </body>
 </html>

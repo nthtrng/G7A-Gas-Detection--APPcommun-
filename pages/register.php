@@ -6,23 +6,32 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $groupe = trim($_POST['groupe']);
+    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $groupe = trim($_POST['groupe'] ?? '');
 
-    if (empty($username) || empty($email) || empty($password) || empty($groupe)) {
+    if ($username === '' || $email === '' || $password === '' || $groupe === '') {
         $error = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email address.";
     } else {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
+
         if ($stmt->fetch()) {
             $error = "This email is already in use.";
         } else {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password, groupe) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$username, $email, $hash, $groupe]);
-            $success = "Account created! You can now log in.";
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $pdo->prepare("
+                INSERT INTO users (username, email, password, groupe)
+                VALUES (?, ?, ?, ?)
+            ");
+
+            $stmt->execute([$username, $email, $hashedPassword, $groupe]);
+
+            $success = "Account created successfully. You can now log in.";
         }
     }
 }
